@@ -6,8 +6,17 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/txt_user"
         android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Welcome Doctor"
+        android:textColor="@color/colorAccent"/>
+    <LinearLayout
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:orientation="horizontal">

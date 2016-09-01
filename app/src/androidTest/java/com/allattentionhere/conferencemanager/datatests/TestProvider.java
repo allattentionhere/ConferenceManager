@@ -134,7 +134,7 @@ public class TestProvider extends AndroidTestCase {
 
         ContentValues updatedValues = new ContentValues(values);
         updatedValues.put(DataContract.AdminEntry._ID, adminRowId);
-        updatedValues.put(DataContract.AdminEntry.COLUMN_NAME, "Krupen");
+        updatedValues.put(DataContract.AdminEntry.COLUMN_NAME, "KrupenG");
 
         Cursor locationCursor = mContext.getContentResolver().query(DataContract.AdminEntry.CONTENT_URI, null, null, null, null);
 

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/txt_topic"
@@ -12,7 +13,8 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="Topic"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+       android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -23,7 +25,8 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="Description"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+       android:textColor="@color/colorPrimary"
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_marginTop="8dp"
@@ -33,5 +36,6 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="Date"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
 </LinearLayout>

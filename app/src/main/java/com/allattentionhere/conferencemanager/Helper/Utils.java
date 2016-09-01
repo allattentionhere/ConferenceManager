@@ -13,11 +13,6 @@ public class Utils {
         return prefs.getString(Constants.SHAREDPREF_USERTYPE, Constants.USERTYPE_DOCTOR);
     }
 
-    public static long getUserEmail(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getLong(Constants.SHAREDPREF_USEREMAIL, 0);
-    }
-
     public static void setUserType(Context context, String type) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putString(Constants.SHAREDPREF_USERTYPE, type);
@@ -28,6 +23,15 @@ public class Utils {
         editor.putLong(Constants.SHAREDPREF_USERID, id);
         editor.commit();
     }
+    public static void setUserName(Context context, String name) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putString(Constants.SHAREDPREF_USERNAME, name);
+        editor.commit();
+    }
+    public static String getUserName(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(Constants.SHAREDPREF_USERNAME, null);
+    }
 
     public static Long getUserId(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -37,6 +41,7 @@ public class Utils {
     public static void signOut(Context c){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(Constants.SHAREDPREF_USERNAME).apply();
         editor.remove(Constants.SHAREDPREF_USERID).apply();
     }
 

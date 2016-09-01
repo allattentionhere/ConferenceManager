@@ -37,7 +37,7 @@ public class DoctorActivity extends AppCompatActivity implements InvitesFragment
     EditText description;
     Button datePicker, btn_add, btn_signout;
     static TextView txt_date;
-    TextView txt_suggestions, txt_invitations;
+    TextView txt_suggestions, txt_invitations,txt_user;
     String conferenceID;
     String suggestionID;
     int updated;
@@ -111,7 +111,8 @@ public class DoctorActivity extends AppCompatActivity implements InvitesFragment
         txt_invitations = (TextView) findViewById(R.id.txt_invitations);
         btn_add = (Button) findViewById(R.id.btn_add);
         btn_signout = (Button) findViewById(R.id.btn_signout);
-
+        txt_user = (TextView)findViewById(R.id.txt_user);
+        txt_user.setText("Welcome "+Utils.getUserName(this)+" (Doctor)");
     }
 
 
@@ -362,13 +363,10 @@ public class DoctorActivity extends AppCompatActivity implements InvitesFragment
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 

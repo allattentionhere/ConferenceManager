@@ -39,10 +39,9 @@ public class AdminActivity extends AppCompatActivity implements SuggestionsFragm
     String conferenceID;
     String suggestionID;
     int updated;
-    TextView txt_suggestions, txt_conferences;
+    TextView txt_user,txt_suggestions, txt_conferences;
 
 
-    //TODO: remove Read Column
     public static final String[] SUGGESTION_COLUMNS = {
             DataContract.SuggestionEntry.TABLE_NAME + "." + DataContract.SuggestionEntry._ID,
             DataContract.SuggestionEntry.COLUMN_USER_ID,
@@ -113,6 +112,8 @@ public class AdminActivity extends AppCompatActivity implements SuggestionsFragm
         txt_conferences = (TextView) findViewById(R.id.txt_conferences);
         btn_add = (Button) findViewById(R.id.btn_add);
         btn_signout = (Button) findViewById(R.id.btn_signout);
+        txt_user = (TextView)findViewById(R.id.txt_user);
+        txt_user.setText("Welcome "+Utils.getUserName(this)+" (Admin)");
 
     }
 
@@ -133,7 +134,7 @@ public class AdminActivity extends AppCompatActivity implements SuggestionsFragm
                 alertDialogBuilder.setTitle("Make a Conference on this suggested topic?");
 
                 alertDialogBuilder.setCancelable(false)
-                        .setPositiveButton("Convert", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Make", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 ContentValues contentValues = new ContentValues();
                                 contentValues.put(DataContract.ConferenceEntry.COLUMN_USER_ID, Utils.getUserId(AdminActivity.this));
@@ -355,12 +356,10 @@ public class AdminActivity extends AppCompatActivity implements SuggestionsFragm
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 

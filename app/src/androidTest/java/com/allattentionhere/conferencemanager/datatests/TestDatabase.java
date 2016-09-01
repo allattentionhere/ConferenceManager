@@ -14,7 +14,6 @@ import java.util.Set;
 
 public class TestDatabase extends AndroidTestCase {
 
-    public static final String LOG_TAG = TestDatabase.class.getSimpleName();
 
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {

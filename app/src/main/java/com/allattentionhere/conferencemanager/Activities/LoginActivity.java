@@ -42,9 +42,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-     // Id to identity READ_CONTACTS permission request.
     private static final int REQUEST_READ_CONTACTS = 0;
-
     private AutoCompleteTextView actv_email;
     private EditText etxt_password;
     private View pb_loginprogress;
@@ -61,19 +59,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             DataContract.DoctorEntry.COLUMN_USERNAME,
             DataContract.DoctorEntry.COLUMN_PASSWORD,
     };
-    private static final int ADMIN_ID = 0;
-    private static final int ADMIN_USERNAME = 1;
-    private static final int ADMIN_PASSWORD = 2;
-
-    private static final int DOCTOR_ID = 0;
-    private static final int DOCTOR_USERNAME = 1;
-    private static final int DOCTOR_PASSWORD = 2;
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_USERNAME = 1;
+    private static final int COLUMN_PASSWORD = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if (Utils.getUserId(this)>0 && Utils.getUserName(this)!=null){
+            startActivity(new Intent(this, ((Utils.getUserType(this).equals(Constants.USERTYPE_DOCTOR))) ? DoctorActivity.class : AdminActivity.class));
+        }
         init();
         populateAutoComplete();
         setListener();
@@ -85,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    doLogin();
                     return true;
                 }
                 return false;
@@ -95,7 +92,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         findViewById(R.id.btn_signin).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                //try login
+                doLogin();
             }
         });
         findViewById(R.id.btn_register).setOnClickListener(new OnClickListener() {
@@ -156,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void attemptLogin() {
+    private void doLogin() {
 
         // Reset errors.
         actv_email.setError(null);
@@ -314,7 +312,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Cursor cursor = getContentResolver().query(adminUri, ADMIN_PROJECTION, null, null, null);
 
             int adminId = 0;
-            String username;
+            String username = null;
             String password;
 
             if (cursor == null) {
@@ -323,9 +321,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             } else {
                 while (cursor.moveToNext()) {
-                    adminId = cursor.getInt(ADMIN_ID);
-                    username = cursor.getString(ADMIN_USERNAME);
-                    password = cursor.getString(ADMIN_PASSWORD);
+                    adminId = cursor.getInt(COLUMN_ID);
+                    username = cursor.getString(COLUMN_USERNAME);
+                    password = cursor.getString(COLUMN_PASSWORD);
 
                     if (actv_username.equals(username) && etxt_password.equals(password)) {
                         proceed = true;
@@ -336,6 +334,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (proceed) {
                 Utils.setUserId(LoginActivity.this, adminId);
+                Utils.setUserName(LoginActivity.this, username);
                 return true;
             } else {
                 showProgress(false);
@@ -352,7 +351,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Cursor cursor = getContentResolver().query(doctorUri, DOCTOR_PROJECTION, null, null, null);
 
             int doctorId = 0;
-            String username;
+            String username = null;
             String password;
 
 
@@ -362,9 +361,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             } else {
                 while (cursor.moveToNext()) {
-                    doctorId = cursor.getInt(DOCTOR_ID);
-                    username = cursor.getString(DOCTOR_USERNAME);
-                    password = cursor.getString(DOCTOR_PASSWORD);
+                    doctorId = cursor.getInt(COLUMN_ID);
+                    username = cursor.getString(COLUMN_USERNAME);
+                    password = cursor.getString(COLUMN_PASSWORD);
 
                     if (actv_username.equals(username) && etxt_password.equals(password)) {
                         proceed = true;
@@ -375,6 +374,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (proceed) {
                 Utils.setUserId(LoginActivity.this, doctorId);
+                Utils.setUserName(LoginActivity.this, username);
                 return true;
             } else {
                 showProgress(false);

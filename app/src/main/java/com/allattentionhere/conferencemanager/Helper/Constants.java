@@ -7,9 +7,6 @@ public class Constants {
     public static final String USERTYPE_DOCTOR = "doctor";
     public static final String USERTYPE_ADMIN = "admin";
     public static final String SHAREDPREF_USERTYPE = "usertype";
-    public static final String SHAREDPREF_USEREMAIL = "useremail";
     public static final String SHAREDPREF_USERID = "userid";
-
-
-
+    public static final String SHAREDPREF_USERNAME = "username";
 }
