@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter Conference Details"
+        android:text="Enter Details"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/txt_date"
         android:layout_gravity="center_horizontal"
-        android:text=""
+        android:text="No date selected"
         android:gravity="center" />
 
     <Button

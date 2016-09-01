@@ -52,23 +52,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             DataContract.AdminEntry.TABLE_NAME + "." + DataContract.AdminEntry._ID,
             DataContract.AdminEntry.COLUMN_USERNAME,
             DataContract.AdminEntry.COLUMN_PASSWORD,
+            DataContract.AdminEntry.COLUMN_NAME
+
     };
 
     private static final String[] DOCTOR_PROJECTION = new String[]{
             DataContract.DoctorEntry.TABLE_NAME + "." + DataContract.DoctorEntry._ID,
             DataContract.DoctorEntry.COLUMN_USERNAME,
             DataContract.DoctorEntry.COLUMN_PASSWORD,
+            DataContract.DoctorEntry.COLUMN_NAME
     };
     private static final int COLUMN_ID = 0;
     private static final int COLUMN_USERNAME = 1;
     private static final int COLUMN_PASSWORD = 2;
+    private static final int COLUMN_NAME = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (Utils.getUserId(this)>0 && Utils.getUserName(this)!=null){
+        if (Utils.getUserId(this) > 0 && Utils.getUserName(this) != null) {
             startActivity(new Intent(this, ((Utils.getUserType(this).equals(Constants.USERTYPE_DOCTOR))) ? DoctorActivity.class : AdminActivity.class));
         }
         init();
@@ -100,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 //open register screen
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }
@@ -307,12 +311,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private boolean doLogin(String actv_username, String etxt_password) {
         boolean proceed = false;
         if ((Utils.getUserType(LoginActivity.this)).equals(Constants.USERTYPE_ADMIN)) {
-            Log.d("insert","login user admin");
+            Log.d("insert", "login user admin");
             Uri adminUri = DataContract.AdminEntry.CONTENT_URI;
             Cursor cursor = getContentResolver().query(adminUri, ADMIN_PROJECTION, null, null, null);
 
             int adminId = 0;
-            String username = null;
+            String username = null, name = null;
             String password;
 
             if (cursor == null) {
@@ -324,7 +328,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     adminId = cursor.getInt(COLUMN_ID);
                     username = cursor.getString(COLUMN_USERNAME);
                     password = cursor.getString(COLUMN_PASSWORD);
-
+                    name = cursor.getString(COLUMN_NAME);
                     if (actv_username.equals(username) && etxt_password.equals(password)) {
                         proceed = true;
                         break;
@@ -334,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (proceed) {
                 Utils.setUserId(LoginActivity.this, adminId);
-                Utils.setUserName(LoginActivity.this, username);
+                Utils.setUserName(LoginActivity.this, name);
                 return true;
             } else {
                 showProgress(false);
@@ -345,13 +349,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         } else if (((Utils.getUserType(LoginActivity.this)).equals(Constants.USERTYPE_DOCTOR))) {
-            Log.d("insert","login user doctor");
+            Log.d("insert", "login user doctor");
 
             Uri doctorUri = DataContract.DoctorEntry.CONTENT_URI;
             Cursor cursor = getContentResolver().query(doctorUri, DOCTOR_PROJECTION, null, null, null);
 
             int doctorId = 0;
-            String username = null;
+            String username = null,name=null;
             String password;
 
 
@@ -364,6 +368,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     doctorId = cursor.getInt(COLUMN_ID);
                     username = cursor.getString(COLUMN_USERNAME);
                     password = cursor.getString(COLUMN_PASSWORD);
+                    name = cursor.getString(COLUMN_NAME);
 
                     if (actv_username.equals(username) && etxt_password.equals(password)) {
                         proceed = true;
@@ -374,7 +379,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (proceed) {
                 Utils.setUserId(LoginActivity.this, doctorId);
-                Utils.setUserName(LoginActivity.this, username);
+                Utils.setUserName(LoginActivity.this, name);
                 return true;
             } else {
                 showProgress(false);
