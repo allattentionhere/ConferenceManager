@@ -1,2 +1,2 @@
 # ConferenceManager
-Conference management for Doctors
+Conference management for Doctors.
